@@ -1,0 +1,37 @@
+# docker-compose.yml
+# This file tells Docker to run PostgreSQL and Redis for us
+
+version: '3.8'
+
+services:
+  # PostgreSQL Database (stores all our data)
+  postgres:
+    image: postgres:15-alpine  # Use PostgreSQL version 15
+    container_name: pharmabuddy-postgres
+    environment:
+      # Database credentials
+      POSTGRES_DB: pharmabuddy        # Database name
+      POSTGRES_USER: pharmabuddy      # Username
+      POSTGRES_PASSWORD: pharmabuddy123  # Password
+    ports:
+      - "5432:5432"  # Port to access database (localhost:5432)
+    volumes:
+      - postgres_data:/var/lib/postgresql/data  # Persist data even after restart
+    restart: unless-stopped  # Auto-restart if crashes
+
+  # Redis (for job queues and caching)
+  redis:
+    image: redis:7-alpine  # Use Redis version 7
+    container_name: pharmabuddy-redis
+    ports:
+      - "6379:6379"  # Port to access Redis (localhost:6379)
+    volumes:
+      - redis_data:/data  # Persist data
+    restart: unless-stopped
+
+# Named volumes (where data is stored on your computer)
+volumes:
+  postgres_data:
+    driver: local
+  redis_data:
+    driver: local

@@ -1,0 +1,14 @@
+node_modules/
+.env
+.env.*
+!.env.example
+dist/
+.next/
+coverage/
+*.log
+.DS_Store
+backend/dist/
+frontend/.next/
+frontend/out/
+debug_api.js
+.gemini/
